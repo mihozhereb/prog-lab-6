@@ -1,0 +1,40 @@
+{
+  "elements": [
+    {
+      "id": 3,
+      "name": "123",
+      "coordinates": {
+        "x": 23.0,
+        "y": 32.0
+      },
+      "creationDate": "2007-12-03T10:15:30",
+      "numberOfParticipants": 3,
+      "genre": "BLUES",
+      "frontMan": {
+        "name": "john",
+        "birthday": "2007-12-03",
+        "height": 100.0,
+        "weight": 100,
+        "hairColor": "BLUE"
+      }
+    },
+    {
+      "id": 4,
+      "name": "1234",
+      "coordinates": {
+        "x": 23.0,
+        "y": 32.0
+      },
+      "creationDate": "2007-12-03T10:15:30",
+      "numberOfParticipants": 3,
+      "genre": "BLUES",
+      "frontMan": {
+        "name": "Carry",
+        "birthday": "2007-12-03",
+        "height": 100.0,
+        "weight": 100,
+        "hairColor": "BLUE"
+      }
+    }
+  ]
+}
