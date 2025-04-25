@@ -19,9 +19,6 @@ public class CommandsMap {
         COMMANDS.put("update", new UpdateCommand());
         COMMANDS.put("remove_by_id", new RemoveByIdCommand());
         COMMANDS.put("clear", new ClearCommand());
-        COMMANDS.put("save", new SaveCommand());
-        COMMANDS.put("execute_script", new ExecuteScriptCommand());
-        COMMANDS.put("exit", new ExitCommand());
         COMMANDS.put("add_if_max", new AddIfMaxCommand());
         COMMANDS.put("remove_greater", new RemoveGreaterCommand());
         COMMANDS.put("remove_lower", new RemoveLowerCommand());
@@ -29,6 +26,7 @@ public class CommandsMap {
         COMMANDS.put("filter_contains_name", new FilterContainsNameCommand());
         COMMANDS.put("print_field_ascending_number_of_participants",
                 new PrintFieldAscendingNumberOfParticipantsCommand());
+        COMMANDS.put("get_command_type", new GetCommandTypeCommand());
     }
 
     /**

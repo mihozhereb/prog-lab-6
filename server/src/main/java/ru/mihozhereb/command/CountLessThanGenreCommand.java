@@ -16,15 +16,11 @@ public class CountLessThanGenreCommand implements Command {
             return new Response("Error. Invalid genre.", null);
         }
 
-        int counter = 0;
+        long genres = CollectionManager.getInstance().getCollection().stream().filter(
+                a -> a.getGenre() != null && a.getGenre().toString().compareTo(genre.toString()) < 0
+        ).count();
 
-        for (MusicBand i : CollectionManager.getInstance().getCollection()) {
-            if (i.getGenre() != null && i.getGenre().toString().compareTo(genre.toString()) < 0) {
-                counter++;
-            }
-        }
-
-        return new Response("Done. " + counter + " elements.", null);
+        return new Response("Done. " + genres + " elements.", null);
     }
 
     @Override

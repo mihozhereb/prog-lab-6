@@ -3,13 +3,14 @@ package ru.mihozhereb.command;
 import ru.mihozhereb.control.Handler;
 import ru.mihozhereb.control.Request;
 import ru.mihozhereb.control.Response;
+import ru.mihozhereb.control.UDPClient;
 import ru.mihozhereb.io.ConsoleWorker;
-import ru.mihozhereb.io.FileWorker;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.SocketException;
 
 public class ExecuteScriptCommand implements Command {
     private static int recursionCounter = 0;
@@ -33,12 +34,22 @@ public class ExecuteScriptCommand implements Command {
 
         System.setIn(fis);
 
+        Handler handler;
+        try {
+            handler = new Handler(new UDPClient("localhost", 6666));
+        } catch (SocketException e) {
+            throw new RuntimeException(e);
+        }
         ConsoleWorker consoleWorker = new ConsoleWorker();
 
         while (consoleWorker.ready()) {
             String line = consoleWorker.read();
             consoleWorker.writeLn(line);
-            consoleWorker.write(Handler.handle(line, consoleWorker));
+            try {
+                consoleWorker.write(handler.handle(line, consoleWorker));
+            } catch (IOException e) {
+                consoleWorker.writeLn("Connection error. Retry later...");
+            }
         }
         try {
             fis.close();

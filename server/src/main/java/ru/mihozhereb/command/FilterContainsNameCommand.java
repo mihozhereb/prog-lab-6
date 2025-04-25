@@ -11,13 +11,9 @@ import java.util.List;
 public class FilterContainsNameCommand implements Command {
     @Override
     public Response execute(Request r) {
-        List<MusicBand> result = new ArrayList<>();
-
-        for (MusicBand i : CollectionManager.getInstance().getCollection()) {
-            if (i.getName().contains(r.argument())) {
-                result.add(i);
-            }
-        }
+        List<MusicBand> result = CollectionManager.getInstance().getCollection().stream().filter(
+                a -> a.getName().contains(r.argument())
+        ).toList();
 
         return new Response("Done.", result);
     }

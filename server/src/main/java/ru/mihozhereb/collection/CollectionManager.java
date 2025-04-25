@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.TreeSet;
+import java.util.logging.Logger;
 
 /**
  * CollectionManager singleton class
@@ -19,6 +20,7 @@ public final class CollectionManager {
     private static final TreeSet<MusicBand> COLLECTION = new TreeSet<>();
     private static String path;
     private static final LocalDateTime CREATION_DATE_TIME = LocalDateTime.now();
+    private final static Logger LOGGER = Logger.getLogger(CollectionManager.class.getName());
 
     private CollectionManager() {  }
 
@@ -69,6 +71,7 @@ public final class CollectionManager {
                 throw new StorageIsNullException("Collection's storage or hash file is not ready");
             }
         }
+        LOGGER.info("Storage loaded");
     }
 
     /**
@@ -80,6 +83,7 @@ public final class CollectionManager {
             storage.write(COLLECTION.toArray(new MusicBand[0]));
             hashStorage.write(DigestUtils.sha256Hex(COLLECTION + "MY SUPER SECRET PEPPER"));
         }
+        LOGGER.info("Storage saved");
     }
 
     /**

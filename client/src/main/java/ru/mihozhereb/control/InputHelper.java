@@ -1,12 +1,10 @@
 package ru.mihozhereb.control;
 
-import ru.mihozhereb.collection.CollectionManager;
 import ru.mihozhereb.collection.model.*;
 import ru.mihozhereb.io.ConsoleWorker;
 import ru.mihozhereb.io.Formatters;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalDate;;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
@@ -257,9 +255,6 @@ public class InputHelper {
         inputHeight();
         inputWeight();
         inputHairColor();
-
-        musicBand.setId(CollectionManager.getInstance().getLastIdInCollection());
-        musicBand.setCreationDate(LocalDateTime.now());
 
         return musicBand;
     }

@@ -6,18 +6,15 @@ import ru.mihozhereb.control.Request;
 import ru.mihozhereb.control.Response;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PrintFieldAscendingNumberOfParticipantsCommand implements Command {
     @Override
     public Response execute(Request r) {
-        List<String> result = new ArrayList<>();
-
-        for (MusicBand i : CollectionManager.getInstance().getCollection()) {
-            result.add(String.valueOf(i.getNumberOfParticipants()));
-        }
-
-        result.sort(null);
+        List<String> result = CollectionManager.getInstance().getCollection().stream().mapToLong(
+                MusicBand::getNumberOfParticipants
+        ).sorted().mapToObj(String::valueOf).toList();
 
         return new Response("Done. " + String.join(" ", result), null);
     }

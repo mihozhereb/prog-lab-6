@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Coordinates class
  */
-public class Coordinates {
+public class Coordinates implements Comparable<Coordinates> {
     /**
      * X coordinate
      *
@@ -98,5 +98,13 @@ public class Coordinates {
                 "x=" + x +
                 ", y=" + y +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Coordinates o) {
+        int result = this.getX().compareTo(o.getX());
+        if (result != 0) return result;
+        result = this.getY().compareTo(o.getY());
+        return result;
     }
 }

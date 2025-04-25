@@ -2,9 +2,10 @@ package ru.mihozhereb.control;
 
 import ru.mihozhereb.collection.model.MusicBand;
 import ru.mihozhereb.command.CommandType;
+import ru.mihozhereb.command.ExecuteScriptCommand;
 import ru.mihozhereb.io.ConsoleWorker;
-import ru.mihozhereb.io.JsonWorker;
 
+import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -21,14 +22,34 @@ public class Handler {
      * @return result of execution in a string form understandable for the user
      * @see Request
      * @see Response
-     * @see Router
+     * @see UDPClient
      */
-    public static String handle(String row, ConsoleWorker cw) {
+    private final UDPClient client;
+
+    public Handler(UDPClient client) {
+        this.client = client;
+    }
+
+    private CommandType getCommandType(String command) throws IOException {
+        String commandType;
+
+        commandType = client.sendRequest(
+                new Request("get_command_type", command, null)
+        ).response();
+
+        return CommandType.valueOf(commandType);
+    }
+
+    public String handle(String row, ConsoleWorker cw) throws IOException {
         String[] args = row.split(" ", 2);
+
+        if (args[0].equals("exit")) {
+            System.exit(0);
+        }
 
         Optional<MusicBand> element = Optional.empty();
 
-        if (CommandsMap.getCommandType(args[0]) == CommandType.ENTER) {
+        if (getCommandType(args[0]) == CommandType.ENTER) {
             InputHelper inputHelper = new InputHelper(cw);
             try {
                 element = Optional.ofNullable(inputHelper.input());
@@ -38,7 +59,13 @@ public class Handler {
         }
 
         Request req = new Request(args[0], args.length == 2 ? args[1] : null, element.orElse(null));
-        Response resp = Router.route(req);
+
+        Response resp;
+        if (args[0].equals("execute_script")) {
+            resp = new ExecuteScriptCommand().execute(req);
+        } else {
+            resp = client.sendRequest(req);
+        }
 
         StringBuilder responseText = new StringBuilder(resp.response()).append(System.lineSeparator());
 

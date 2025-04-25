@@ -1,6 +1,10 @@
 package ru.mihozhereb.control;
 
+import ru.mihozhereb.collection.CollectionManager;
+import ru.mihozhereb.collection.model.MusicBand;
 import ru.mihozhereb.command.*;
+
+import java.time.LocalDateTime;
 
 /**
  * Router class
@@ -22,6 +26,10 @@ public class Router {
         if (command == null) {
             return new Response("Command not found.", null);
         }
+        if (r.element() != null) {
+            r.element().setId(CollectionManager.getInstance().getLastIdInCollection());
+            r.element().setCreationDate(LocalDateTime.now());
+        }
 
         return command.execute(r);
     }
@@ -37,8 +45,15 @@ public class Router {
         helpText.append("HELP | COMMANDS:").append(System.lineSeparator());
 
         for (Command i : CommandsMap.getValues()) {
-            helpText.append(i.getHelp()).append(System.lineSeparator());
+            if (!i.getHelp().isEmpty()) {
+                helpText.append(i.getHelp()).append(System.lineSeparator());
+            }
         }
+
+        helpText.append("exit | terminate the client program without saving the file")
+                .append(System.lineSeparator())
+                .append("execute_script file_name | read and execute a script from a file")
+                .append(System.lineSeparator());
 
         return helpText.toString();
     }
