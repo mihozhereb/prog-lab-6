@@ -36,6 +36,13 @@ public class UDPClient {
 
         String res = new String(inPacket.getData());
 
-        return Response.fromJson(res);
+        Response result;
+        try {
+            result = Response.fromJson(res);
+        } catch (Exception e) {
+            throw new IOException(e);
+        }
+
+        return result;
     }
 }

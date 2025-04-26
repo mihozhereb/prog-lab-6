@@ -83,7 +83,13 @@ public class UDPServer implements Runnable {
             return;
         }
 
-        Request req = Request.fromJson(new String(reqBuffer.array()));
+        Request req;
+        try {
+            req = Request.fromJson(new String(reqBuffer.array()));
+        } catch (Exception e) {
+            LOGGER.warning("Failed to parse the datagram");
+            return;
+        }
         Response res = Router.route(req);
 
         ByteBuffer resBuffer = ByteBuffer.wrap(res.toJson().getBytes());
